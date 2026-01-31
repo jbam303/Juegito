@@ -20,6 +20,10 @@ public class BoardManager : MonoBehaviour
     private List<GameObject> tiles = new List<GameObject>();
     private Vector2 emptySpace;
 
+    
+    // I copied this script from the internet. only god knows howe it works now.
+
+    
     void Start()
     {
        

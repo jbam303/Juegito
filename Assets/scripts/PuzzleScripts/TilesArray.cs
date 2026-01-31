@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class TilesArray : MonoBehaviour
 {
+    // This is a texture array so the mini-game controller can set the correct images to the tiles
 
     public Texture2D[] TileTexture;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
