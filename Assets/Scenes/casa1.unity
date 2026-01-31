@@ -2816,6 +2816,63 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1001 &1630462005
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.26480103
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.274609
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215303837215294737, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_Name
+      value: ropa_tirada
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: -4161369568681901532, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
 --- !u!1 &1687789699
 GameObject:
   m_ObjectHideFlags: 0
@@ -3338,9 +3395,29 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5852557506224620135, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
+      propertyPath: volumenPasos
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852557506224620135, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
       propertyPath: velocidadSprint
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5852557506224620135, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
+      propertyPath: sonidosPasos.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852557506224620135, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
+      propertyPath: 'sonidosPasos.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: ae4529d6dc08849d3b380b2ec72a2753, type: 3}
+    - target: {fileID: 5852557506224620135, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
+      propertyPath: 'sonidosPasos.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: fbcc06272f7ec4467bcc9093ca4f6d96, type: 3}
+    - target: {fileID: 5852557506224620135, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
+      propertyPath: 'sonidosPasos.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: ae4529d6dc08849d3b380b2ec72a2753, type: 3}
     - target: {fileID: 6721642740686991871, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.9
@@ -3398,3 +3475,4 @@ SceneRoots:
   - {fileID: 485021136}
   - {fileID: 414516612}
   - {fileID: 336626408}
+  - {fileID: 1630462005}

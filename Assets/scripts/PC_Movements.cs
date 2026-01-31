@@ -14,6 +14,15 @@ public class PC_Movements : MonoBehaviour
     public float fuerzaSalto = 5f;
     public float gravedad = -9.81f;
     
+    [Header("Sonidos de Pasos")]
+    public AudioClip[] sonidosPasos; // Array de sonidos para variedad
+    public AudioClip sonidoSalto;
+    public AudioClip sonidoAterrizar;
+    [Range(0f, 1f)] public float volumenPasos = 0.5f;
+    public float intervaloPasosCaminando = 0.5f;
+    public float intervaloPasosCorriendo = 0.3f;
+    [Range(0f, 0.3f)] public float variacionTono = 0.1f; // Variación aleatoria del pitch
+    
     [Header("Referencias")]
     public Transform camaraTransform; // Asigna la cámara aquí
     
@@ -21,6 +30,11 @@ public class PC_Movements : MonoBehaviour
     private float rotacionX = 0f;
     private Vector3 velocidadVertical;
     private bool cursorBloqueado = true;
+    
+    // Variables para sonido de pasos
+    private AudioSource audioSource;
+    private float tiempoSiguientePaso = 0f;
+    private bool estabaEnSuelo = true;
 
     void Start()
     {
@@ -32,6 +46,15 @@ public class PC_Movements : MonoBehaviour
             camaraTransform = Camera.main?.transform;
         }
         
+        // Configurar AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f; // 2D para el jugador local
+        
         BloquearCursor(true);
     }
 
@@ -41,6 +64,8 @@ public class PC_Movements : MonoBehaviour
         RotarConMouse();
         AplicarGravedad();
         ManejarSalto();
+        ManejarSonidoPasos();
+        DetectarAterrizaje();
         
         // Alternar bloqueo del cursor con Escape
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -111,5 +136,71 @@ public class PC_Movements : MonoBehaviour
         cursorBloqueado = bloquear;
         Cursor.lockState = bloquear ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !bloquear;
+    }
+    
+    void ManejarSonidoPasos()
+    {
+        // Solo reproducir si está en el suelo y moviéndose
+        if (!controller.isGrounded) return;
+        if (sonidosPasos == null || sonidosPasos.Length == 0) return;
+        
+        // Verificar si hay input de movimiento
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        bool seEstMoviendo = Mathf.Abs(horizontal) > 0.1f || Mathf.Abs(vertical) > 0.1f;
+        
+        if (!seEstMoviendo) return;
+        
+        // Verificar intervalo de tiempo
+        if (Time.time >= tiempoSiguientePaso)
+        {
+            ReproducirPaso();
+            
+            // Calcular siguiente intervalo según velocidad
+            bool corriendo = Input.GetKey(KeyCode.LeftShift);
+            float intervalo = corriendo ? intervaloPasosCorriendo : intervaloPasosCaminando;
+            tiempoSiguientePaso = Time.time + intervalo;
+        }
+    }
+    
+    void ReproducirPaso()
+    {
+        if (sonidosPasos.Length == 0) return;
+        
+        // Seleccionar sonido aleatorio
+        int indice = Random.Range(0, sonidosPasos.Length);
+        AudioClip clip = sonidosPasos[indice];
+        
+        if (clip == null) return;
+        
+        // Variar el pitch para más naturalidad
+        audioSource.pitch = 1f + Random.Range(-variacionTono, variacionTono);
+        audioSource.PlayOneShot(clip, volumenPasos);
+    }
+    
+    void DetectarAterrizaje()
+    {
+        // Detectar cuando aterriza
+        if (controller.isGrounded && !estabaEnSuelo)
+        {
+            ReproducirSonidoAterrizaje();
+        }
+        
+        estabaEnSuelo = controller.isGrounded;
+    }
+    
+    void ReproducirSonidoAterrizaje()
+    {
+        if (sonidoAterrizar != null)
+        {
+            audioSource.pitch = 1f;
+            audioSource.PlayOneShot(sonidoAterrizar, volumenPasos * 1.2f);
+        }
+        else if (sonidosPasos != null && sonidosPasos.Length > 0)
+        {
+            // Usar sonido de paso como fallback
+            audioSource.pitch = 0.8f; // Más grave para aterrizaje
+            audioSource.PlayOneShot(sonidosPasos[0], volumenPasos * 1.2f);
+        }
     }
 }
