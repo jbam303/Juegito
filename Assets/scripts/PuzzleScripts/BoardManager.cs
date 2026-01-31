@@ -12,14 +12,25 @@ public class BoardManager : MonoBehaviour
     public GameObject tilePrefab;
     public RectTransform board;
     public TilesArray TilesArray;
+    public bool interact_01 = false;
+    public bool interact_02 = false;
+    public bool interact_03 = false;
+    public Camera puzzleCamera;
 
     private List<GameObject> tiles = new List<GameObject>();
     private Vector2 emptySpace;
 
     void Start()
     {
+       
+        
+    }
+
+    public void setup()
+    {
         CreateBoard();
         Shuffle();
+        puzzleCamera.gameObject.SetActive(true);
     }
 
     void CreateBoard()
