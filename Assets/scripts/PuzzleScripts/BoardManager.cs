@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UIElements;
@@ -17,8 +18,18 @@ public class BoardManager : MonoBehaviour
     public bool interact_03 = false;
     public Camera puzzleCamera;
 
+    [Header("Configuración de Victoria")]
+    public float tiempoEsperaRecompensa = 3f; 
+    public GameObject panelRecompensa; 
+    public Animator animadorRecompensa; 
+    public string nombreAnimacionRecompensa = "Recompensa"; // Nombre del trigger o estado de animación
+    
     private List<GameObject> tiles = new List<GameObject>();
     private Vector2 emptySpace;
+    
+    // Variable para bloquear el puzzle
+    public static bool puzzleBloqueado = false;
+    private bool puzzleCompletado = false;
 
     
     // I copied this script from the internet. only god knows howe it works now.
@@ -32,6 +43,7 @@ public class BoardManager : MonoBehaviour
 
     public void setup()
     {
+        
         CreateBoard();
         Shuffle();
         puzzleCamera.gameObject.SetActive(true);
@@ -39,6 +51,7 @@ public class BoardManager : MonoBehaviour
 
     void CreateBoard()
     {
+        
         float size = 100f; // tile size
         emptySpace = new Vector2(cols - 1, rows - 1);
         Component tilesArray = this.GetComponent<TilesArray>();
@@ -101,6 +114,8 @@ public class BoardManager : MonoBehaviour
 
     public void CheckWin()
     {
+        if (puzzleCompletado) return; // Evitar múltiples activaciones
+        
         int number = 1;
         foreach (var tile in tiles)
         {
@@ -110,6 +125,69 @@ public class BoardManager : MonoBehaviour
                 return;
             number++;
         }
+        
+        // ¡Victoria!
         Debug.Log("You Win!");
+        puzzleCompletado = true;
+        puzzleBloqueado = true; 
+        
+        StartCoroutine(MostrarRecompensa());
+    }
+    
+    private IEnumerator MostrarRecompensa()
+    {
+        // Esperar el tiempo configurado
+        yield return new WaitForSeconds(tiempoEsperaRecompensa);
+        
+        // Destruir todas las tiles del puzzle
+        foreach (var tile in tiles)
+        {
+            if (tile != null)
+            {
+                Destroy(tile);
+            }
+        }
+        tiles.Clear();
+        
+        // Desactivar el tablero del puzzle
+        if (board != null)
+        {
+            board.gameObject.SetActive(false);
+        }
+        
+        // Desactivar la cámara del puzzle
+        if (puzzleCamera != null)
+        {
+            puzzleCamera.gameObject.SetActive(false);
+        }
+        
+        // Marcar el puzzle como terminado permanentemente
+        popUpGame.puzzleTerminado = true;
+        
+        // Mostrar panel de recompensa si existe
+        if (panelRecompensa != null)
+        {
+            panelRecompensa.SetActive(true);
+        }
+        
+        // Reproducir animación de recompensa si existe
+        if (animadorRecompensa != null)
+        {
+            animadorRecompensa.SetTrigger(nombreAnimacionRecompensa);
+        }
+        
+        // Desbloquear el movimiento del jugador
+        popUpGame.movimientoBloqueado = false;
+        
+        Debug.Log("¡Puzzle completado y cerrado permanentemente!");
+    }
+    
+    // Método público para cerrar el panel de recompensa (llamar desde un botón o evento)
+    public void CerrarRecompensa()
+    {
+        if (panelRecompensa != null)
+        {
+            panelRecompensa.SetActive(false);
+        }
     }
 }

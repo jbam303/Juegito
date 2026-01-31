@@ -619,6 +619,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 180748972}
   m_CullTransparentMesh: 1
+--- !u!1 &195170206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195170207}
+  - component: {fileID: 195170210}
+  - component: {fileID: 195170209}
+  - component: {fileID: 195170208}
+  m_Layer: 0
+  m_Name: Interaction
+  m_TagString: Interact_03
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &195170207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195170206}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.009999999, z: 0.009999999}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1560005789}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &195170208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195170206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ce6edeb8bd7b93428c46dd7bd27ea4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextContainer
+  textContainer:
+  - Como es que pude dejar asi?
+  interactCounter: 0
+--- !u!114 &195170209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195170206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79f635ee1e9d6d64e84af8c21503eb83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::popUpGame
+  textContainer: {fileID: 195170208}
+  panel: {fileID: 627630093}
+  interactionCount: 0
+  interactTag: 
+  boardManager: {fileID: 1781006021}
+--- !u!65 &195170210
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195170206}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 171.82266, y: 195.965, z: 121.74296}
+  m_Center: {x: 34.815056, y: 14.388963, z: 39.128475}
 --- !u!1 &217729098
 GameObject:
   m_ObjectHideFlags: 0
@@ -3192,6 +3279,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554922436}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1560005789 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+  m_PrefabInstance: {fileID: 1813336984}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1628418604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3604,6 +3696,74 @@ MonoBehaviour:
   interact_02: 0
   interact_03: 0
   puzzleCamera: {fileID: 371286466}
+  tiempoEsperaRecompensa: 3
+  panelRecompensa: {fileID: 0}
+  animadorRecompensa: {fileID: 0}
+  nombreAnimacionRecompensa: Recompensa
+--- !u!1001 &1813336984
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.211678
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.26480103
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.186407
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215303837215294737, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_Name
+      value: ropa_tirada
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215303837215294737, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -4538636349707563573, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 195170207}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: -4161369568681901532, guid: 10b27dbc82ee9447b8296ec5fa8d07dd, type: 3}
 --- !u!1 &1924098939
 GameObject:
   m_ObjectHideFlags: 0
@@ -3933,6 +4093,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: plantaDos
       objectReference: {fileID: 0}
+    - target: {fileID: 4036356158867751011, guid: d3dfea05dbccd874e872370061b65752, type: 3}
+      propertyPath: textContainer.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036356158867751011, guid: d3dfea05dbccd874e872370061b65752, type: 3}
+      propertyPath: 'textContainer.Array.data[0]'
+      value: Que bonitas plantas, creo que les falta un poco de agua
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036356158867751011, guid: d3dfea05dbccd874e872370061b65752, type: 3}
+      propertyPath: 'textContainer.Array.data[1]'
+      value: nice placeholder 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036356158867751011, guid: d3dfea05dbccd874e872370061b65752, type: 3}
+      propertyPath: 'textContainer.Array.data[2]'
+      value: nice placeholder 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036356158867751011, guid: d3dfea05dbccd874e872370061b65752, type: 3}
+      propertyPath: 'textContainer.Array.data[3]'
+      value: nice placeholder 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5488333405056596505, guid: d3dfea05dbccd874e872370061b65752, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.4980018
@@ -4046,6 +4226,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6576263242052425357, guid: 5e29e0a569aaa5944a2214602a9bd003, type: 3}
+      propertyPath: textContainer.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6576263242052425357, guid: 5e29e0a569aaa5944a2214602a9bd003, type: 3}
+      propertyPath: 'textContainer.Array.data[0]'
+      value: "Por qu\xE9 se ve tan sobrio?"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4152,3 +4340,4 @@ SceneRoots:
   - {fileID: 414516612}
   - {fileID: 336626408}
   - {fileID: 661093223}
+  - {fileID: 1813336984}

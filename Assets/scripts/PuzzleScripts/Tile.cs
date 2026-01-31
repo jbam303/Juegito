@@ -21,6 +21,9 @@ public class Tile : MonoBehaviour
 
     public void OnClick()
     {
+        // Si el puzzle está bloqueado, no hacer nada
+        if (BoardManager.puzzleBloqueado) return;
+        
         board.MoveTile(this);
     }
 }

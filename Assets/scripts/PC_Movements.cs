@@ -35,6 +35,9 @@ public class PC_Movements : MonoBehaviour
     private AudioSource audioSource;
     private float tiempoSiguientePaso = 0f;
     private bool estabaEnSuelo = true;
+    
+    // Variable para detectar cambio de estado del puzzle
+    private bool puzzleActivoAnterior = false;
 
     void Start()
     {
@@ -60,6 +63,13 @@ public class PC_Movements : MonoBehaviour
 
     void Update()
     {
+        // Detectar si el puzzle se activó/desactivó para mostrar/ocultar cursor
+        if (popUpGame.movimientoBloqueado != puzzleActivoAnterior)
+        {
+            puzzleActivoAnterior = popUpGame.movimientoBloqueado;
+            BloquearCursor(!popUpGame.movimientoBloqueado);
+        }
+        
         MoverPersonaje();
         RotarConMouse();
         AplicarGravedad();
@@ -67,8 +77,8 @@ public class PC_Movements : MonoBehaviour
         ManejarSonidoPasos();
         DetectarAterrizaje();
         
-        // Alternar bloqueo del cursor con Escape
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Alternar bloqueo del cursor con Escape (solo si no está en puzzle)
+        if (Input.GetKeyDown(KeyCode.Escape) && !popUpGame.movimientoBloqueado)
         {
             BloquearCursor(!cursorBloqueado);
         }
@@ -76,6 +86,9 @@ public class PC_Movements : MonoBehaviour
 
     void MoverPersonaje()
     {
+        // Si el movimiento está bloqueado, no procesamos input
+        if (popUpGame.movimientoBloqueado) return;
+
         // Obtener input WASD
         float horizontal = Input.GetAxisRaw("Horizontal"); // A/D
         float vertical = Input.GetAxisRaw("Vertical");     // W/S
@@ -93,7 +106,8 @@ public class PC_Movements : MonoBehaviour
 
     void RotarConMouse()
     {
-        if (!cursorBloqueado) return;
+        // Si el puzzle está activo o el cursor no está bloqueado, no rotar
+        if (!cursorBloqueado || popUpGame.movimientoBloqueado) return;
         
         // Obtener movimiento del mouse
         float mouseX = Input.GetAxis("Mouse X") * sensibilidadMouse;

@@ -1,5 +1,6 @@
 using GLTFast.Schema;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,15 @@ public class popUpGame : MonoBehaviour
     // This is a reference to the mini-game controller. For now, all the references are manually done. It can be improved by making them dynamic at game-gen.
     public BoardManager boardManager;
 
+    // Variable estática para bloquear el movimiento del jugador
+    public static bool movimientoBloqueado = false;
+    
+    // Variable estática para indicar que el puzzle fue completado permanentemente
+    public static bool puzzleTerminado = false;
+    
+    // Variable para detectar si el jugador está en la zona de interacción
+    private bool jugadorEnZona = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,54 +39,87 @@ public class popUpGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // Si el puzzle ya terminó, no permitir más interacciones
+        if (puzzleTerminado) return;
+        
+        // Detectar si el jugador presiona E mientras está en la zona
+        if (jugadorEnZona && Input.GetKeyDown(KeyCode.E))
+        {
+            Interactuar();
+        }
+    }
+    
+    // Método para manejar la interacción
+    private void Interactuar()
+    {
+        // Activar el panel y mostrar texto
+        panel.SetActive(true);
+        panel.GetComponentInChildren<TextMeshProUGUI>().text = textContainer.textContainer[interactionCount];
+        interactionCount++;
+        
+        // Desactivar el panel después de 2 segundos
+        StartCoroutine(DesactivarPanelConDelay());
+        
+        // Reset si llegamos al final del array
+        if (interactionCount >= textContainer.textContainer.Length)
+        {
+            interactionCount = 0;
+        }
+        
+        // Marcar este objeto como interactuado
+        Debug.Log("Interactuando con: " + interactTag);
+        switch (interactTag)
+        {
+            case "Interact_01":
+                boardManager.interact_01 = true;
+                Debug.Log("Interact_01 activado");
+                break;
+            case "Interact_02":
+                boardManager.interact_02 = true;
+                Debug.Log("Interact_02 activado");
+                break;
+            case "Interact_03":
+                boardManager.interact_03 = true;
+                Debug.Log("Interact_03 activado");
+                break;
+        }
+        
+        Debug.Log("Estado: interact_01=" + boardManager.interact_01 + ", interact_02=" + boardManager.interact_02 + ", interact_03=" + boardManager.interact_03);
+        
+        // Verificar si los 3 objetos distintos fueron interactuados
+        if (boardManager.interact_01 && boardManager.interact_02 && boardManager.interact_03)
+        {
+            Debug.Log("¡Abriendo puzzle en 1 segundo!");
+            // Bloqueamos el movimiento del jugador
+            movimientoBloqueado = true;
+            // Iniciar corrutina para abrir puzzle después de 1 segundo
+            StartCoroutine(AbrirPuzzleConDelay());
+        }
+    }
+    
+    private IEnumerator AbrirPuzzleConDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log("¡Puzzle abierto!");
+        boardManager.setup();
+    }
+    
+    private IEnumerator DesactivarPanelConDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        panel.SetActive(false);
     }
 
     // This detects when the player enters the interaction collider.
     private void OnTriggerEnter(Collider other)
     {
-
-        // This section activates de UI Panel and updates the display text depending on what's in the Text Container Array. It then increases the InteractionCount.
-        panel.SetActive(true);
-        panel.GetComponentInChildren<TextMeshProUGUI>().text = textContainer.textContainer[interactionCount];
-        interactionCount++;
-        
-        // This checks the Tag of the collider and sets the mini-game controller Bool to TRUE. This can probably be made better by only triggering the first time someone enters.
-        switch (interactTag)
-        {
-            case "Interact_01":
-                boardManager.interact_01 = true;
-                break;
-            case "Interact_02":
-                boardManager.interact_02 = true; 
-                break;
-            case "interact_03":
-                boardManager.interact_03 = true;
-                break;
-        }
-
-
+        jugadorEnZona = true;
     }
 
     // This checks when an entity has exited the collider
     private void OnTriggerExit(Collider other)
     {
-
-        // We turn off the UI text
+        jugadorEnZona = false;
         panel.SetActive(false);
-        // If our interactionCount is at the end of the array, we reset it to 0
-        if (interactionCount >= textContainer.textContainer.Length)
-        {
-            interactionCount = 0;
-        }
-
-        // And if all the mini-game controller bools are TRUE we send a message to turn on the mini-game. This can be improved by timing and stopping it from triggering more than once.
-        // We need to double check if it works in-game, once exported. Im not 100% sure clicking on the UI will work once exported.
-        if ((boardManager.interact_01 == true) && (boardManager.interact_02 == true))
-        {
-            boardManager.setup();
-        }
-
-
     }
 }
