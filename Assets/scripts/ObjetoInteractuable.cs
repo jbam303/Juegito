@@ -19,6 +19,7 @@ public class ObjetoInteractuable : MonoBehaviour
     private bool yaInteractuado = false;
     private Renderer objetoRenderer;
     private Color colorOriginal;
+    private TextContainer textContainer;
     
     // Evento estático para notificar al controlador del puzzle
     public static event System.Action<ObjetoInteractuable> OnObjetoInteractuado;
