@@ -6,18 +6,19 @@ using System.Collections.Generic;
 
 public class ObjetoInteractuable : MonoBehaviour
 {
-    // Enum para evitar errores de escritura
     public enum TipoInteraccion
     {
         Interact_01,
         Interact_02,
-        Interact_03
+        Interact_03,
+        Interact_04,
+        Interact_Especial
     }
     
     [Header("Configuración")]
     public string nombreObjeto = "Objeto";
     public KeyCode teclaInteraccion = KeyCode.E;
-    public TipoInteraccion tipoInteraccion = TipoInteraccion.Interact_01; // DROPDOWN en el Inspector
+    public TipoInteraccion tipoInteraccion = TipoInteraccion.Interact_01;
     
     [Header("Visual")]
     public Color colorResaltado = Color.yellow;
@@ -36,8 +37,12 @@ public class ObjetoInteractuable : MonoBehaviour
     [Header("Referencias Puzzle")]
     public BoardManager boardManager;
     
+    [Header("Configuración Puzzle")]
+    public int interaccionesNecesarias = 3;
+    
     [Header("Eventos")]
     public UnityEvent alInteractuar;
+    public UnityEvent alDesbloquearse; // Evento cuando el especial se desbloquea
     
     private int indiceActual = 0;
     private bool estaResaltado = false;
@@ -45,15 +50,23 @@ public class ObjetoInteractuable : MonoBehaviour
     private Color colorOriginal;
     private Coroutine coroutinaMensaje;
     
+    // Para objetos especiales - guardar estado de renderizado
+    private bool objetoVisible = true;
+    private Collider objetoCollider;
+    
+    // Sistema de tracking
     private static HashSet<TipoInteraccion> objetosUnicos = new HashSet<TipoInteraccion>();
     private static bool interaccionEnCurso = false;
     private static BoardManager boardManagerRef;
+    private static List<ObjetoInteractuable> objetosEspeciales = new List<ObjetoInteractuable>();
     
     public static event System.Action<ObjetoInteractuable> OnObjetoInteractuado;
 
     void Start()
     {
         objetoRenderer = GetComponent<Renderer>();
+        objetoCollider = GetComponent<Collider>();
+        
         if (objetoRenderer != null)
         {
             colorOriginal = objetoRenderer.material.color;
@@ -79,13 +92,75 @@ public class ObjetoInteractuable : MonoBehaviour
             boardManagerRef = boardManager;
         }
         
-        if (boardManager == null)
+        // Si es especial, ocultarlo y registrarlo
+        if (tipoInteraccion == TipoInteraccion.Interact_Especial)
         {
-            Debug.LogWarning($"[{nombreObjeto}] BoardManager no asignado!");
+            objetosEspeciales.Add(this);
+            OcultarObjeto();
+            Debug.Log($"[INIT] {nombreObjeto} (ESPECIAL) - Oculto hasta desbloqueo");
+        }
+        else
+        {
+            Debug.Log($"[INIT] {nombreObjeto} configurado como: {tipoInteraccion}");
+        }
+    }
+    
+    void OnDestroy()
+    {
+        // Limpiar de la lista cuando se destruya
+        if (objetosEspeciales.Contains(this))
+        {
+            objetosEspeciales.Remove(this);
+        }
+    }
+    
+    void OcultarObjeto()
+    {
+        objetoVisible = false;
+        
+        if (objetoRenderer != null)
+        {
+            objetoRenderer.enabled = false;
         }
         
-        // Log para verificar configuración
-        Debug.Log($"[INIT] {nombreObjeto} configurado con tipo: {tipoInteraccion}");
+        if (objetoCollider != null)
+        {
+            objetoCollider.enabled = false;
+        }
+        
+        // Ocultar hijos también (por si tiene efectos visuales)
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
+    
+    void MostrarObjeto()
+    {
+        if (objetoVisible) return;
+        
+        objetoVisible = true;
+        
+        if (objetoRenderer != null)
+        {
+            objetoRenderer.enabled = true;
+        }
+        
+        if (objetoCollider != null)
+        {
+            objetoCollider.enabled = true;
+        }
+        
+        // Mostrar hijos
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+        
+        Debug.Log($"[ESPECIAL] ¡{nombreObjeto} ahora es visible!");
+        
+        // Disparar evento de desbloqueo
+        alDesbloquearse?.Invoke();
     }
     
     void LateUpdate()
@@ -110,14 +185,51 @@ public class ObjetoInteractuable : MonoBehaviour
         }
     }
     
+    static bool EspecialDesbloqueado(int necesarias)
+    {
+        int contadorNormales = 0;
+        foreach (var tipo in objetosUnicos)
+        {
+            if (tipo != TipoInteraccion.Interact_Especial)
+            {
+                contadorNormales++;
+            }
+        }
+        return contadorNormales >= necesarias;
+    }
+    
+    // Método estático para mostrar todos los objetos especiales
+    static void VerificarYMostrarEspeciales()
+    {
+        foreach (var especial in objetosEspeciales)
+        {
+            if (especial != null && !especial.objetoVisible)
+            {
+                if (EspecialDesbloqueado(especial.interaccionesNecesarias))
+                {
+                    especial.MostrarObjeto();
+                }
+            }
+        }
+    }
+    
     public bool PuedeInteractuar()
     {
-        return !popUpGame.puzzleTerminado && !interaccionEnCurso;
+        if (popUpGame.puzzleTerminado || interaccionEnCurso) return false;
+        
+        // Si es especial y no está visible, no puede interactuar
+        if (tipoInteraccion == TipoInteraccion.Interact_Especial && !objetoVisible)
+        {
+            return false;
+        }
+        
+        return true;
     }
     
     public void Resaltar()
     {
         if (popUpGame.puzzleTerminado || interaccionEnCurso) return;
+        if (!objetoVisible) return;
         
         estaResaltado = true;
         
@@ -150,6 +262,7 @@ public class ObjetoInteractuable : MonoBehaviour
     public void Interactuar()
     {
         if (popUpGame.puzzleTerminado || interaccionEnCurso) return;
+        if (!objetoVisible) return;
         
         Debug.Log($"=== INTERACCIÓN: {nombreObjeto} (Tipo: {tipoInteraccion}) ===");
         
@@ -171,8 +284,8 @@ public class ObjetoInteractuable : MonoBehaviour
         {
             objetosUnicos.Add(tipoInteraccion);
             
-            Debug.Log($"[REGISTRO] Nuevo tipo único: {tipoInteraccion}");
-            Debug.Log($"[REGISTRO] Total: {objetosUnicos.Count}/3");
+            Debug.Log($"[REGISTRO] Nuevo tipo: {tipoInteraccion}");
+            Debug.Log($"[REGISTRO] Progreso: {ObtenerProgresoNormal()}/{interaccionesNecesarias}");
             
             BoardManager bm = boardManager != null ? boardManager : boardManagerRef;
             
@@ -182,54 +295,36 @@ public class ObjetoInteractuable : MonoBehaviour
                 {
                     case TipoInteraccion.Interact_01:
                         bm.interact_01 = true;
-                        Debug.Log("[BOARDMANAGER] interact_01 = true");
                         break;
                     case TipoInteraccion.Interact_02:
                         bm.interact_02 = true;
-                        Debug.Log("[BOARDMANAGER] interact_02 = true");
                         break;
                     case TipoInteraccion.Interact_03:
                         bm.interact_03 = true;
-                        Debug.Log("[BOARDMANAGER] interact_03 = true");
                         break;
                 }
-                
-                Debug.Log($"[BOARDMANAGER] Estado: 01={bm.interact_01}, 02={bm.interact_02}, 03={bm.interact_03}");
             }
-            else
-            {
-                Debug.LogError("[ERROR] No hay BoardManager disponible!");
-            }
-        }
-        else
-        {
-            Debug.Log($"[REGISTRO] Tipo {tipoInteraccion} ya fue registrado");
+            
+            // Verificar si hay que mostrar objetos especiales
+            VerificarYMostrarEspeciales();
         }
     }
     
     void VerificarActivacionPuzzle()
     {
-        BoardManager bm = boardManager != null ? boardManager : boardManagerRef;
-        
-        if (bm == null)
+        if (tipoInteraccion == TipoInteraccion.Interact_Especial)
         {
-            Debug.LogError("[ERROR] No se puede verificar puzzle - BoardManager es NULL");
-            DesbloquearInteraccion();
-            return;
+            BoardManager bm = boardManager != null ? boardManager : boardManagerRef;
+            
+            if (bm != null)
+            {
+                Debug.Log("[PUZZLE] ¡Interact_Especial activado! Abriendo puzzle...");
+                StartCoroutine(AbrirPuzzleConDelay(bm));
+                return;
+            }
         }
         
-        Debug.Log($"[VERIFICAR] 01={bm.interact_01}, 02={bm.interact_02}, 03={bm.interact_03}");
-        
-        if (bm.interact_01 && bm.interact_02 && bm.interact_03)
-        {
-            Debug.Log("[PUZZLE] ¡3 objetos únicos! Abriendo puzzle...");
-            StartCoroutine(AbrirPuzzleConDelay(bm));
-        }
-        else
-        {
-            Debug.Log($"[PUZZLE] Faltan objetos ({objetosUnicos.Count}/3). Desbloqueando...");
-            DesbloquearInteraccion();
-        }
+        DesbloquearInteraccion();
     }
     
     void DesbloquearInteraccion()
@@ -313,12 +408,40 @@ public class ObjetoInteractuable : MonoBehaviour
         {
             canvasMensaje.SetActive(false);
         }
+        
+        // Si es especial, volver a ocultar
+        if (tipoInteraccion == TipoInteraccion.Interact_Especial)
+        {
+            OcultarObjeto();
+        }
     }
     
     public static void ResetearSistema()
     {
         objetosUnicos.Clear();
         interaccionEnCurso = false;
+        
+        // Ocultar todos los especiales de nuevo
+        foreach (var especial in objetosEspeciales)
+        {
+            if (especial != null)
+            {
+                especial.OcultarObjeto();
+            }
+        }
+    }
+    
+    public static int ObtenerProgresoNormal()
+    {
+        int contador = 0;
+        foreach (var tipo in objetosUnicos)
+        {
+            if (tipo != TipoInteraccion.Interact_Especial)
+            {
+                contador++;
+            }
+        }
+        return contador;
     }
     
     public static int ObtenerProgreso()
@@ -333,7 +456,7 @@ public class ObjetoInteractuable : MonoBehaviour
     
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
+        Gizmos.color = tipoInteraccion == TipoInteraccion.Interact_Especial ? Color.magenta : Color.cyan;
         Gizmos.DrawWireSphere(transform.position, 1f);
     }
 }

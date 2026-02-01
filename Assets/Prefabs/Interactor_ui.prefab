@@ -162,15 +162,15 @@ RectTransform:
   m_GameObject: {fileID: 2945451324751525067}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1733508, y: 1.2482108, z: 1}
+  m_LocalScale: {x: 0.9241151, y: 0.8807875, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8345249884939565034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 54.83898, y: -7.3156}
+  m_SizeDelta: {x: 634.5342, y: 132.6701}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3650527344787267381
 CanvasRenderer:
@@ -227,12 +227,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 49
+  m_fontSizeBase: 49
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 4.4117165, z: 0, w: -22.517185}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -536,7 +536,7 @@ RectTransform:
   m_GameObject: {fileID: 8454222935219848897}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.20557465, y: 0.27364773, z: 1}
+  m_LocalScale: {x: 0.10069869, y: 0.14142446, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7814204714029153862}
@@ -612,7 +612,7 @@ RectTransform:
   m_GameObject: {fileID: 8672548649837122938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85226, y: 0.79243827, z: 1}
+  m_LocalScale: {x: 0.7155916, y: 0.5969041, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8419833387604362940}
@@ -620,7 +620,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -159}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &676301518679363318
