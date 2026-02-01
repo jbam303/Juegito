@@ -70,6 +70,8 @@ MonoBehaviour:
   textContainer: {fileID: 4036356158867751011}
   panel: {fileID: 0}
   interactionCount: 0
+  interactTag: 
+  boardManager: {fileID: 0}
 --- !u!114 &4036356158867751011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,11 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TextContainer
   textContainer:
-  - nice placeholder 0
-  - nice placeholder 1
-  - nice placeholder 2
-  - nice placeholder 3
-  - nice placeholder 4
+  - Que bonitas plantas, creo que les falta un poco de agua
   interactCounter: 0
 --- !u!1001 &5343429271066140068
 PrefabInstance:
@@ -99,15 +97,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8787131195908642883, guid: 47045b9dcf2874756958ad0aa1dd964a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.4980018
+      value: -2.198
       objectReference: {fileID: 0}
     - target: {fileID: -8787131195908642883, guid: 47045b9dcf2874756958ad0aa1dd964a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.795
+      value: 1.169
       objectReference: {fileID: 0}
     - target: {fileID: -8787131195908642883, guid: 47045b9dcf2874756958ad0aa1dd964a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.158682
+      value: -12.737
       objectReference: {fileID: 0}
     - target: {fileID: -8787131195908642883, guid: 47045b9dcf2874756958ad0aa1dd964a, type: 3}
       propertyPath: m_LocalRotation.w
