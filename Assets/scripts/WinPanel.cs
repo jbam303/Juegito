@@ -26,11 +26,10 @@ public class WinPanel : MonoBehaviour
     public Camera camaraObjetivo;
     
     [Header("Testing")]
-    public bool mostrarAlIniciar = true;
+    public bool mostrarAlIniciar = false; // Desactivado por defecto
     public float delayInicial = 0.5f;
     
     private Vector3 escalaOriginal;
-    private bool crosshairEstabActivo = false;
     private bool panelActivo = false;
     
     void Start()
@@ -55,34 +54,33 @@ public class WinPanel : MonoBehaviour
     
     void Update()
     {
+        // Solo para testing - quitar en producción
         if (Input.GetKeyDown(KeyCode.G))
         {
             MostrarPanelVictoria();
         }
     }
     
-    /// <summary>
-    /// Muestra el panel de victoria con animación
-    /// </summary>
     public void MostrarPanelVictoria()
     {
         if (panel == null || panelActivo) return;
         
         panelActivo = true;
         
-        // Bloquear movimiento y mostrar cursor (usa el mismo sistema que el puzzle)
+        Debug.Log("[WINPANEL] Mostrando panel de victoria");
+        
+        // Bloquear movimiento y mostrar cursor
         popUpGame.movimientoBloqueado = true;
         
-        // Ocultar crosshair
+        // El crosshair ya debería estar oculto por el BoardManager
+        // Pero por seguridad, lo ocultamos aquí también
         OcultarCrosshair();
         
-        // Posicionar frente a la cámara si es un objeto 3D/Sprite
         if (usarPosicionCamara && camaraObjetivo != null)
         {
             PosicionarFrenteCamara();
         }
         
-        // Configurar mensaje
         if (mensajeTexto != null)
         {
             mensajeTexto.text = mensajeVictoria;
@@ -92,9 +90,6 @@ public class WinPanel : MonoBehaviour
         StartCoroutine(AnimarAparicion());
     }
     
-    /// <summary>
-    /// Muestra el panel con un mensaje personalizado
-    /// </summary>
     public void MostrarPanelVictoria(string mensaje)
     {
         mensajeVictoria = mensaje;
@@ -105,14 +100,13 @@ public class WinPanel : MonoBehaviour
     {
         if (crosshair != null)
         {
-            crosshairEstabActivo = crosshair.activeSelf;
             crosshair.SetActive(false);
         }
     }
     
     private void MostrarCrosshair()
     {
-        if (crosshair != null && crosshairEstabActivo)
+        if (crosshair != null)
         {
             crosshair.SetActive(true);
         }
@@ -156,9 +150,6 @@ public class WinPanel : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Oculta el panel de victoria
-    /// </summary>
     public void OcultarPanel()
     {
         if (panel != null)
@@ -168,18 +159,17 @@ public class WinPanel : MonoBehaviour
         
         panelActivo = false;
         
-        // Restaurar crosshair
+        // Restaurar crosshair al cerrar
         MostrarCrosshair();
+        
+        Debug.Log("[WINPANEL] Panel cerrado, crosshair restaurado");
     }
     
-    /// <summary>
-    /// Cierra el panel y desbloquea el juego
-    /// </summary>
     public void CerrarYContinuar()
     {
         OcultarPanel();
-        
-        // Desbloquear movimiento (el PC_Movements detectará el cambio y ocultará el cursor)
         popUpGame.movimientoBloqueado = false;
+        
+        Debug.Log("[WINPANEL] Juego desbloqueado");
     }
 }

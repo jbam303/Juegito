@@ -5,11 +5,11 @@ public class InteractionController : MonoBehaviour
 {
     [Header("Configuración Raycast")]
     public float distanciaInteraccion = 5f;
-    public LayerMask capasInteractuables; // Opcional: filtrar por layers
+    public LayerMask capasInteractuables;
     public KeyCode teclaInteraccion = KeyCode.E;
     
     [Header("UI")]
-    public GameObject indicadorUI; // Texto "Presiona E para interactuar"
+    public GameObject indicadorUI;
     public TextMeshProUGUI textoIndicador;
     
     [Header("Debug")]
@@ -30,8 +30,15 @@ public class InteractionController : MonoBehaviour
     
     void Update()
     {
-        // No hacer nada si el movimiento está bloqueado
-        if (popUpGame.movimientoBloqueado) 
+        // No hacer nada si hay interacción en curso o puzzle activo
+        if (ObjetoInteractuable.HayInteraccionEnCurso() || popUpGame.puzzleTerminado)
+        {
+            LimpiarObjetoActual();
+            return;
+        }
+        
+        // Si el movimiento está bloqueado pero no hay interacción, también limpiar
+        if (popUpGame.movimientoBloqueado)
         {
             LimpiarObjetoActual();
             return;
@@ -49,7 +56,11 @@ public class InteractionController : MonoBehaviour
     
     void RealizarRaycast()
     {
-        if (camara == null) return;
+        if (camara == null)
+        {
+            camara = Camera.main;
+            if (camara == null) return;
+        }
         
         // Crear ray desde el centro de la pantalla (crosshair)
         Ray ray = camara.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -76,6 +87,12 @@ public class InteractionController : MonoBehaviour
         {
             // Intentar obtener componente ObjetoInteractuable
             ObjetoInteractuable objeto = hit.collider.GetComponent<ObjetoInteractuable>();
+            
+            // También buscar en el padre si no se encuentra
+            if (objeto == null)
+            {
+                objeto = hit.collider.GetComponentInParent<ObjetoInteractuable>();
+            }
             
             if (objeto != null && objeto.PuedeInteractuar())
             {

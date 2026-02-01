@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEngine.UIElements;
-
 
 public class BoardManager : MonoBehaviour
 {
@@ -19,40 +17,56 @@ public class BoardManager : MonoBehaviour
     public Camera puzzleCamera;
 
     [Header("Configuración de Victoria")]
-    public float tiempoEsperaRecompensa = 3f; 
-    public GameObject panelRecompensa; 
-    public Animator animadorRecompensa; 
-    public string nombreAnimacionRecompensa = "Recompensa"; // Nombre del trigger o estado de animación
+    public float tiempoEsperaRecompensa = 3f;
+    public WinPanel winPanel; // Referencia al WinPanel
+    
+    [Header("Crosshair")]
+    public GameObject crosshair; // Referencia al crosshair
     
     private List<GameObject> tiles = new List<GameObject>();
     private Vector2 emptySpace;
     
-    // Variable para bloquear el puzzle
     public static bool puzzleBloqueado = false;
     private bool puzzleCompletado = false;
+    private bool crosshairEstabActivo = false;
 
-    
-    // I copied this script from the internet. only god knows howe it works now.
-
-    
     void Start()
     {
-       
         
     }
 
     public void setup()
     {
+        // Ocultar crosshair al abrir el puzzle
+        OcultarCrosshair();
         
         CreateBoard();
         Shuffle();
         puzzleCamera.gameObject.SetActive(true);
+        
+        Debug.Log("[PUZZLE] Puzzle iniciado, crosshair oculto");
+    }
+    
+    void OcultarCrosshair()
+    {
+        if (crosshair != null)
+        {
+            crosshairEstabActivo = crosshair.activeSelf;
+            crosshair.SetActive(false);
+        }
+    }
+    
+    void MostrarCrosshair()
+    {
+        if (crosshair != null && crosshairEstabActivo)
+        {
+            crosshair.SetActive(true);
+        }
     }
 
     void CreateBoard()
     {
-        
-        float size = 100f; // tile size
+        float size = 100f;
         emptySpace = new Vector2(cols - 1, rows - 1);
         Component tilesArray = this.GetComponent<TilesArray>();
 
@@ -62,7 +76,7 @@ public class BoardManager : MonoBehaviour
         {
             for (int x = 0; x < cols; x++)
             {
-                if (x == cols - 1 && y == rows - 1) continue; // leave empty
+                if (x == cols - 1 && y == rows - 1) continue;
 
                 GameObject tile = Instantiate(tilePrefab, board);
                 tile.GetComponentInChildren<Text>().text = number.ToString();
@@ -101,7 +115,6 @@ public class BoardManager : MonoBehaviour
 
     void Shuffle()
     {
-        // Simple shuffle: randomize tile moves
         for (int i = 0; i < 100; i++)
         {
             foreach (var tile in tiles)
@@ -114,7 +127,7 @@ public class BoardManager : MonoBehaviour
 
     public void CheckWin()
     {
-        if (puzzleCompletado) return; // Evitar múltiples activaciones
+        if (puzzleCompletado) return;
         
         int number = 1;
         foreach (var tile in tiles)
@@ -126,17 +139,15 @@ public class BoardManager : MonoBehaviour
             number++;
         }
         
-        // ¡Victoria!
         Debug.Log("You Win!");
         puzzleCompletado = true;
-        puzzleBloqueado = true; 
+        puzzleBloqueado = true;
         
         StartCoroutine(MostrarRecompensa());
     }
     
     private IEnumerator MostrarRecompensa()
     {
-        // Esperar el tiempo configurado
         yield return new WaitForSeconds(tiempoEsperaRecompensa);
         
         // Destruir todas las tiles del puzzle
@@ -164,30 +175,34 @@ public class BoardManager : MonoBehaviour
         // Marcar el puzzle como terminado permanentemente
         popUpGame.puzzleTerminado = true;
         
-        // Mostrar panel de recompensa si existe
-        if (panelRecompensa != null)
+        // Mostrar WinPanel (el crosshair se maneja dentro del WinPanel)
+        if (winPanel != null)
         {
-            panelRecompensa.SetActive(true);
+            // Pasar la referencia del crosshair al WinPanel si no la tiene
+            if (winPanel.crosshair == null && crosshair != null)
+            {
+                winPanel.crosshair = crosshair;
+            }
+            
+            winPanel.MostrarPanelVictoria();
+            Debug.Log("[PUZZLE] WinPanel mostrado");
+        }
+        else
+        {
+            // Si no hay WinPanel, mostrar crosshair y desbloquear
+            MostrarCrosshair();
+            popUpGame.movimientoBloqueado = false;
+            Debug.Log("[PUZZLE] No hay WinPanel, desbloqueando directamente");
         }
         
-        // Reproducir animación de recompensa si existe
-        if (animadorRecompensa != null)
-        {
-            animadorRecompensa.SetTrigger(nombreAnimacionRecompensa);
-        }
-        
-        // Desbloquear el movimiento del jugador
-        popUpGame.movimientoBloqueado = false;
-        
-        Debug.Log("¡Puzzle completado y cerrado permanentemente!");
+        Debug.Log("¡Puzzle completado!");
     }
     
-    // Método público para cerrar el panel de recompensa (llamar desde un botón o evento)
     public void CerrarRecompensa()
     {
-        if (panelRecompensa != null)
+        if (winPanel != null)
         {
-            panelRecompensa.SetActive(false);
+            winPanel.CerrarYContinuar();
         }
     }
 }
