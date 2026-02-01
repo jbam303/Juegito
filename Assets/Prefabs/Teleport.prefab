@@ -146,8 +146,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 1.5, z: 3.0000002}
-  m_Center: {x: 0, y: 0.25, z: -0.6999999}
+  m_Size: {x: 2, y: 1.5, z: 2.0000002}
+  m_Center: {x: 0, y: 0.25, z: -1.1999999}
 --- !u!114 &3909906428429250159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6806b28968acb349a9bc5a8e4e7394e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorTransition
-  player: {fileID: 0}
+  player: {fileID: 3795311098303507729, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
   destinationPoint: {fileID: 6747524557639463384}
   textContainer: {fileID: 8449458493164865251}
 --- !u!114 &8449458493164865251
@@ -262,8 +262,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 1.5, z: 3.0000007}
-  m_Center: {x: 0, y: 0.25, z: 1.7000004}
+  m_Size: {x: 2, y: 1.5, z: 1.9999998}
+  m_Center: {x: 0, y: 0.25, z: 1.1999999}
 --- !u!114 &5119871471661422075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6806b28968acb349a9bc5a8e4e7394e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorTransition
-  player: {fileID: 0}
+  player: {fileID: 3795311098303507729, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
   destinationPoint: {fileID: 8755013610427804280}
   textContainer: {fileID: 509473130220018064}
 --- !u!114 &509473130220018064

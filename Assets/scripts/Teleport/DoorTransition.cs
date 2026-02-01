@@ -10,11 +10,12 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class DoorTransition : MonoBehaviour
 {
-    public GameObject player;
+    // public GameObject player;
     private Vector3 initialPos;
     private Vector3 destinationPos;
     public GameObject destinationPoint;
     public TextContainer textContainer;
+    public AudioController AudioController;
 
 
 
@@ -24,6 +25,7 @@ public class DoorTransition : MonoBehaviour
     {
 
         destinationPos = destinationPoint.transform.position;
+        AudioController = GameObject.Find("AudioController").GetComponent<AudioController>();
         
 
     }
@@ -64,11 +66,13 @@ public class DoorTransition : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            player.GetComponent<CharacterController>().enabled = false;
-            player.transform.SetPositionAndRotation(destinationPos, Quaternion.identity);
+            // player.GetComponent<CharacterController>().enabled = false;
+            other.GetComponent<CharacterController>().enabled = false;
+            other.transform.SetPositionAndRotation(destinationPos, Quaternion.identity);
             popUpGame.movimientoBloqueado = false;
             panel.SetActive(false);
-            player.GetComponent<CharacterController>().enabled = true;  
+            AudioController.PlayFx("Door");
+            other.GetComponent<CharacterController>().enabled = true;
         }
     }
 }
