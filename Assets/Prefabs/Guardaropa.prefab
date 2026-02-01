@@ -49,6 +49,7 @@ MonoBehaviour:
   textContainer: {fileID: 6576263242052425357}
   panel: {fileID: 0}
   interactionCount: 0
+  interactTag: 
   boardManager: {fileID: 0}
 --- !u!114 &6576263242052425357
 MonoBehaviour:
@@ -181,7 +182,15 @@ PrefabInstance:
       value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5589165446427543880, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 605407446884981600, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: -3488655655812900039, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: -8450401930282729646, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 295828125921006983, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 3326940248762598266, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 3031609220515429044, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 4957616805651915543, guid: 2817b846238144625946fa8a00bfa332, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -3910990755373119420, guid: 2817b846238144625946fa8a00bfa332, type: 3}
       insertIndex: -1
@@ -215,8 +224,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.405178, y: 30.595135, z: 24.428682}
-  m_Center: {x: -1.708534, y: 5.064733, z: -0.54220074}
+  m_Size: {x: 6.405178, y: 20.595135, z: 24.428682}
+  m_Center: {x: -1.7085342, y: 10.0647335, z: -0.54220074}
 --- !u!4 &3228640120845521389 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3910990755373119420, guid: 2817b846238144625946fa8a00bfa332, type: 3}

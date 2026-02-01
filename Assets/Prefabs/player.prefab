@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3795311098303507729}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.64924, y: 0.72547996, z: -9.67672}
+  m_LocalPosition: {x: -10.367781, y: 1.500001, z: -12.548573}
   m_LocalScale: {x: 0.3, y: 1.5, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -110,6 +110,18 @@ MonoBehaviour:
   limiteVertical: 80
   fuerzaSalto: 5
   gravedad: -9.81
+  sonidosPasos:
+  - {fileID: 8300000, guid: 0c925e3ff8d2e6f449aa4b6e44210a8c, type: 3}
+  - {fileID: 8300000, guid: 2eb6cb8b33d6ded4db63dd8c658a435d, type: 3}
+  - {fileID: 8300000, guid: 39e0c8b58afb4cf49973e3fe1728b411, type: 3}
+  - {fileID: 8300000, guid: 32ef98c5538ce76468c0de13f920b1b2, type: 3}
+  - {fileID: 8300000, guid: d244315b67175f542af785127bd756c1, type: 3}
+  sonidoSalto: {fileID: 8300000, guid: 0c925e3ff8d2e6f449aa4b6e44210a8c, type: 3}
+  sonidoAterrizar: {fileID: 0}
+  volumenPasos: 0.5
+  intervaloPasosCaminando: 0.5
+  intervaloPasosCorriendo: 0.3
+  variacionTono: 0.1
   camaraTransform: {fileID: 6031394744928642380}
 --- !u!143 &9169230885824112658
 CharacterController:
