@@ -160,9 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6806b28968acb349a9bc5a8e4e7394e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorTransition
-  player: {fileID: 3795311098303507729, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
   destinationPoint: {fileID: 6747524557639463384}
   textContainer: {fileID: 8449458493164865251}
+  AudioController: {fileID: 0}
 --- !u!114 &8449458493164865251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TextContainer
   textContainer:
-  - Wanna go through?
+  - 'Wanna go through? Esc: No / Return: Yes'
   interactCounter: 0
 --- !u!1 &6747524557639463384
 GameObject:
@@ -276,9 +276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6806b28968acb349a9bc5a8e4e7394e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorTransition
-  player: {fileID: 3795311098303507729, guid: 7e70fceeac0014846a822b92b6a416ba, type: 3}
   destinationPoint: {fileID: 8755013610427804280}
   textContainer: {fileID: 509473130220018064}
+  AudioController: {fileID: 0}
 --- !u!114 &509473130220018064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TextContainer
   textContainer:
-  - Wanna go through?
+  - 'Wanna go through? Esc: No / Return: Yes'
   interactCounter: 0
 --- !u!1 &8755013610427804280
 GameObject:
