@@ -14,6 +14,7 @@ public class popUpGame : MonoBehaviour
     public GameObject panel;
     public int interactionCount;
     public String interactTag;
+    public AudioController AudioController;
 
     // This is a reference to the mini-game controller. For now, all the references are manually done. It can be improved by making them dynamic at game-gen.
     public BoardManager boardManager;
@@ -33,6 +34,7 @@ public class popUpGame : MonoBehaviour
     {
         interactionCount = 0;
         interactTag = this.gameObject.tag;
+        AudioController = GameObject.Find("AudioController").GetComponent<AudioController>();
 
     }
 
@@ -72,14 +74,18 @@ public class popUpGame : MonoBehaviour
         {
             case "Interact_01":
                 boardManager.interact_01 = true;
+                AudioController.PlayFx("planta");
                 Debug.Log("Interact_01 activado");
                 break;
             case "Interact_02":
                 boardManager.interact_02 = true;
+                AudioController.PlayFx("closet");
                 Debug.Log("Interact_02 activado");
+
                 break;
             case "Interact_03":
                 boardManager.interact_03 = true;
+                AudioController.PlayFx("ropa");
                 Debug.Log("Interact_03 activado");
                 break;
         }
