@@ -49,6 +49,7 @@ MonoBehaviour:
   textContainer: {fileID: 6576263242052425357}
   panel: {fileID: 0}
   interactionCount: 0
+  interactTag: 
   boardManager: {fileID: 0}
 --- !u!114 &6576263242052425357
 MonoBehaviour:
@@ -181,7 +182,15 @@ PrefabInstance:
       value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5589165446427543880, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 605407446884981600, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: -3488655655812900039, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: -8450401930282729646, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 295828125921006983, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 3326940248762598266, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 3031609220515429044, guid: 2817b846238144625946fa8a00bfa332, type: 3}
+    - {fileID: 4957616805651915543, guid: 2817b846238144625946fa8a00bfa332, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -3910990755373119420, guid: 2817b846238144625946fa8a00bfa332, type: 3}
       insertIndex: -1
